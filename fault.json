@@ -1,0 +1,26 @@
+
+{
+    "cam_blister": {
+        "fault_1": "Guard Safety Breached",
+        "fault_2": "Emergency Stop",
+        "fault_3": "Stray Product Detected",
+        "fault_4": "Pitch Detection on 3rd Gripper",
+        "fault_5": "Centered Print Check",
+        "fault_6": "Form Material Unwinder Safety",
+        "fault_7": "Product Web Position",
+        "fault_8": "Safety Guard Microswitch",
+        "fault_9": "Insufficient Water Flow",
+        "fault_10": "Failed Incomplete Blister Reject",
+        "fault_11": "Reject Detection in Cutting Area",
+        "fault_12": "Magazine Infeed Jam",
+        "fault_13": "Not Define",
+        "fault_14": "Not Define",
+        "fault_15": "Not Define",
+        "fault_16": "Forming Material End",
+        "fault_17": "Lidding Material End",
+        "fault_18": "Product Low Level",
+        "fault_19": "Low Forming Material",
+        "fault_20": "Low Lidding Material",
+        "fault_21": "Signal Red"
+    }
+}
