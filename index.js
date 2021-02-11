@@ -239,7 +239,7 @@ async function processFunction(data) {
         siapi_execution,
         true,
         shift,
-        line_id,
+        "line_1",
         d,
         timestamp,
         thing_data_map.C1.C1_Siapi_OutfeedBottleCount,
@@ -287,7 +287,7 @@ async function processFunction(data) {
       rinser_execution,
       thing_data_map.C4.C4_RinseFillCap_SignalGreen,
       shift,
-      line_id,
+      "line_2",
       d,
       timestamp,
       thing_data_map.C4.C4_RinseFillCap_OutfeedCount,
@@ -321,7 +321,7 @@ async function processFunction(data) {
       ind_execution,
       thing_data_map.C5.C5_1_IndSealerSignalGreen,
       shift,
-      line_id,
+      "line_3",
       d,
       timestamp,
       thing_data_map.C5.C5_1_IndSealerInfeedCount,
@@ -360,7 +360,7 @@ async function processFunction(data) {
       ave_execution,
       thing_data_map.C6.C6_1_AveGlueLabelSignalGreen,
       shift,
-      line_id,
+      "line_4",
       d,
       timestamp,
       gcountaveglue,
@@ -385,7 +385,7 @@ async function processFunction(data) {
        pall_execution,
        true,
        shift,
-       line_id,
+       "line_1",
        d,
        timestamp,
        thing_data_map.C11.C11_1_StretchWrapPalletCount,
@@ -466,57 +466,11 @@ async function addstop(
     execution,
     ready,
   ]);
-  console.log(current,machine,"curent method");
-  datamaking(random_item(lines),shift,gcount,rcount,machine)
-  if (current == "fault") {
-    code = `fault_${stop}`;
-  } else if (current == "waiting" && typeof waiting == "number") {
-    code = `waiting_${waiting}`;
-  } else {
-    code = current;
-  }
-  var condition = await getCondition(
-    machine,
-    line_id,
-    d,
-    shift,
-    operator_name,
-    batch
-  );
-  // console.log(stop)
-  //if any alarm
-  if (alarm > 0) {
-    updateAlarm(machine, line_id, stop, alarm);
-  } else {
-    updateAlarmStatus(machine, line_id);
-  }
-  //console.log(machine_state_obj[machine])
-  //if state change
-  if (current != machine_state_obj[machine].condition) {
-      //if poweroff b/w changeover
-    var diff = moment(timestamp).diff(moment(condition.last_update), "seconds");
-    if(machine_state_obj[machine].condition == 'updt' && global.changeSkuManualEntry){
-      updatePowerOff(shift,diff,d)
-    }
-    machine_state_obj[machine].condition = current;
-    //console.log(diff)
-    updateStopData(
-      line_id,
-      d,
-      shift,
-      machine,
-      condition.condition,
-      condition.code,
-      diff,
-      (data) => {
-        //console.log(data);
-      }
-    );
-    postStop(machine, code, timestamp, line_id, shift, batch, fgex,d);
-    updateCondition(machine, line_id, current, timestamp, code, (err, data) => {
-      //console.log(data);
-    });
-  }
+  //console.log(alarm,line_id,d,current,machine,"curent method");
+  var code = 0
+  var mode = 1
+  var bpm =  20
+ datamaking(line_id,shift,gcount,rcount,machine,current,d,timestamp,code,alarm,mode,bpm)
 }
 //get thingdata from thingworx
 async function getThingData(thing) {
@@ -561,7 +515,7 @@ function non_zero(value) {
   return status;
 }
 // make a API call every 7 seconds
-const interval = 6 * 1000;
+const interval = 7 * 1000;
 setInterval(() => {
   things.forEach(async (thing, i) => {
     update_thing_data(thing);
@@ -637,7 +591,7 @@ function random_item(items) {
 }
 
 //function execute on page re
-onPageRefresh();
+//onPageRefresh();
 app.listen(process.env.PORT, () => {
   console.log(`App is connected ${process.env.PORT}`);
 });

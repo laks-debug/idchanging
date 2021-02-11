@@ -36,6 +36,15 @@ var rawSchema = new mongoose.Schema({
     kepwaretimestamp:{
         type:Date,
         default:Date.now()
+    },
+    code:{
+        type:Number
+    },
+    alarm:{
+        type:Number
+    },
+    bpm:{
+        type:Number
     }
 
    
@@ -68,36 +77,29 @@ var gcount = Math.floor(Math.random() * max)
 var rcount = Math.floor(Math.random() * max)
 
 //datamaking(line_1,shift,good_count_rinse,rcount,mname)
-var datamaking = async(linex,shiftx,gx,rx,mx,sx)=>{
+var datamaking = async(linex,shiftx,gcountx,rcountx,machinnex,statusx,d,timestamp,code,alarms,mode,bpm)=>{
     console.log("data making")
 
-    ////
     var current_timestamp = moment().local().format("YYYY-MM-DDTHH:mm:ss.SSS")
     //console.log(current_timestamp,"date console");
     var num1 = Math.floor(Math.random() * (6 + 1))
-    var num2 = Math.floor(Math.random() * (6 + 1))
-    console.log(num1,num2);
-    var machines = ["filler", "case_packer", "case_selar", "palletizer", "weigher","Stack","tmgc","rinse_filler",];
-    var stattes = ["ready","waiting","blocked","stop","pdt","updt","execution"]
     var sku = `sku${num1}`
-    var allshift = ["A","B","C"]
-    //var shift = `Shift_${random_item(allshift)}`
-    var shift = "Shift_C"
-    //console.log(shift);
-    var machinename = random_item(machines)
-    var linename = `line_${num2}`
+    
 
-    console.log(`${current_timestamp}/${linex}/${mx}/${shiftx}/${sku}`);
+    //console.log(`${current_timestamp}/${linex}/${machinnex}/${shiftx}/${sku}`);
     
     var new_data = new Rawdata({
-        _id:`${current_timestamp}/${linex}/${mx}/${shiftx}/${sku}`,
+        _id:`${current_timestamp}/${linex}/${machinnex}/${shiftx}/${sku}`,
         shiftname:shiftx,
         lineName:linex,
-        machine_name:mx,
+        machine_name:machinnex,
         sku:sku,
-        good_count:gx,
-        reject_count:rx,
-        current_state:sx
+        good_count:gcountx,
+        reject_count:rcountx,
+        current_state:statusx,
+        code:code,
+        alarm:alarms,
+        bpm:bpm
     });
     var result = await new_data.save();
     return result
