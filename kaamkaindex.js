@@ -164,15 +164,15 @@ async function processFunction(data) {
     
 
 
-    // datamaking("line_1",shift,thing_data_map.C4.C4_RinseFillCap_OutfeedCount,rcountrinser,"rise_filler")
-    // datamaking("line_2",shift,thing_data_map.C1.C1_Siapi_OutfeedBottleCount,rcount,"siapi")
-    // datamaking("line_1",shift,thing_data_map.C1.C1_Siapi_OutfeedBottleCount,rcount,"siapi")
-    // datamaking("line_3",shift,thing_data_map.C5.C5_1_IndSealerInfeedCount, thing_data_map.C5.C5_1_WadRejectCount,"induction")
-    // datamaking("line_4",shift,thing_data_map.C2.C2_AndOr_InfeedBottleCount, thing_data_map.C2.C2_AndOr_ExitRejectCount,"AndOr")
-    // datamaking("line_5",shift,thing_data_map.C6.C6_1_AveGlueLabelInfeedCount, thing_data_map.C7.C7_Inspect_StackFrontLabelCount,"ave_glue")
-    // datamaking("line_6",shift,thing_data_map.C6.C6_1_NewTechInfeedCount, thing_data_map.C7.C7_Inspect_StackFrontLabelCount,"new_tech_labeller")
-    // datamaking("line_7",shift,thing_data_map.C11.C11_1_StretchWrapPalletCount, 0 ,"palletizer")
-    // datamaking("line_2",shift,thing_data_map.C11.C11_1_StretchWrapPalletCount, 0 ,"palletizer")
+    datamaking("line_1",shift,thing_data_map.C4.C4_RinseFillCap_OutfeedCount,rcountrinser,"rise_filler")
+    datamaking("line_2",shift,thing_data_map.C1.C1_Siapi_OutfeedBottleCount,rcount,"siapi")
+    datamaking("line_1",shift,thing_data_map.C1.C1_Siapi_OutfeedBottleCount,rcount,"siapi")
+    datamaking("line_3",shift,thing_data_map.C5.C5_1_IndSealerInfeedCount, thing_data_map.C5.C5_1_WadRejectCount,"induction")
+    datamaking("line_4",shift,thing_data_map.C2.C2_AndOr_InfeedBottleCount, thing_data_map.C2.C2_AndOr_ExitRejectCount,"AndOr")
+    datamaking("line_5",shift,thing_data_map.C6.C6_1_AveGlueLabelInfeedCount, thing_data_map.C7.C7_Inspect_StackFrontLabelCount,"ave_glue")
+    datamaking("line_6",shift,thing_data_map.C6.C6_1_NewTechInfeedCount, thing_data_map.C7.C7_Inspect_StackFrontLabelCount,"new_tech_labeller")
+    datamaking("line_7",shift,thing_data_map.C11.C11_1_StretchWrapPalletCount, 0 ,"palletizer")
+    datamaking("line_2",shift,thing_data_map.C11.C11_1_StretchWrapPalletCount, 0 ,"palletizer")
 
     //when shift change
     if (shift != pre_shift) {
@@ -198,11 +198,57 @@ async function processFunction(data) {
         pre_shift,
         line_id,
         d,
-        timestamp,
-        gcount,
+        timestamp
+      );
+      goodCount(
+        thing_data_map.C1.C1_Siapi_OutfeedBottleCount,
         rcount,
-
-      ); 
+        "siapi",
+        thing_data_map.C1.C1_Siapi_InfeedPreformBPM,
+        mode,
+        shift,
+        batch,
+        d,
+        line_id
+      );
+      //rinser filler
+      goodCount(
+        thing_data_map.C4.C4_RinseFillCap_OutfeedCount,
+        rcountrinser,
+        "rinse_fillcap",
+        thing_data_map.C4.C4_RinseFillCap_InfeedBPM,
+        mode,
+        shift,
+        batch,
+        d,
+        line_id
+      );
+      //induction
+      goodCount(
+        thing_data_map.C5.C5_1_IndSealerInfeedCount,
+        thing_data_map.C5.C5_1_WadRejectCount,
+        "induction",
+        thing_data_map.C5.C5_1_IndSealeInfeedBPM,
+        mode,
+        shift,
+        batch,
+        d,
+        line_id
+      );
+      
+      //aveglue
+      goodCount(
+        gcountaveglue,
+        thing_data_map.C7.C7_Inspect_StackFrontLabelCount,
+       "aveglue",
+        thing_data_map.C6.C6_1_AveGlueLabelInfeedBPM,
+        mode,
+        shift,
+        batch,
+        d,
+        line_id
+      );
+  
       return;
     }
     //when no shift change
@@ -241,9 +287,18 @@ async function processFunction(data) {
         shift,
         line_id,
         d,
-        timestamp,
-        thing_data_map.C1.C1_Siapi_OutfeedBottleCount,
-        rcount,
+        timestamp
+    );
+    goodCount(
+      thing_data_map.C1.C1_Siapi_OutfeedBottleCount,
+      rcount,
+      "siapi",
+      thing_data_map.C1.C1_Siapi_InfeedPreformBPM,
+      mode,
+      shift,
+      batch,
+      d,
+      line_id
     );
 
     //riser filler 
@@ -289,9 +344,18 @@ async function processFunction(data) {
       shift,
       line_id,
       d,
-      timestamp,
+      timestamp
+    );
+    goodCount(
       thing_data_map.C4.C4_RinseFillCap_OutfeedCount,
       rcountrinser,
+     "rinse_fillcap",
+      thing_data_map.C4.C4_RinseFillCap_InfeedBPM,
+      mode,
+      shift,
+      batch,
+      d,
+      line_id
     );
 
     //////////////////induction
@@ -323,9 +387,18 @@ async function processFunction(data) {
       shift,
       line_id,
       d,
-      timestamp,
+      timestamp
+    );
+    goodCount(
       thing_data_map.C5.C5_1_IndSealerInfeedCount,
       thing_data_map.C5.C5_1_WadRejectCount,
+      "induction",
+      thing_data_map.C5.C5_1_IndSealeInfeedBPM,
+      mode,
+      shift,
+      batch,
+      d,
+      line_id
     );
 
     //avle glue
@@ -362,36 +435,20 @@ async function processFunction(data) {
       shift,
       line_id,
       d,
-      timestamp,
+      timestamp
+    );
+
+    goodCount(
       gcountaveglue,
       thing_data_map.C7.C7_Inspect_StackFrontLabelCount,
+     "aveglue",
+      thing_data_map.C6.C6_1_AveGlueLabelInfeedBPM,
+      mode,
+      shift,
+      batch,
+      d,
+      line_id
     );
-    var pall_execution = false;
-    if (thing_data_map.C1.C11_1_StretchWrapBPM > 0) {
-      pall_execution = true
-    }
-  
-    addstop(
-      "palletizer",
-       false,
-       global.changeSkuManualEntry,
-       false,
-       false,
-       false,
-       thing_data_map.C11.C11_1_StretchWrapOutfeedBlocked,
-       waitave,
-       0,
-       false,
-       pall_execution,
-       true,
-       shift,
-       line_id,
-       d,
-       timestamp,
-       thing_data_map.C11.C11_1_StretchWrapPalletCount,
-       0,
-     );
-
 
 
 
@@ -411,7 +468,179 @@ async function processFunction(data) {
   }
 }
 
+// function for good count
+async function goodCount(
+  good_count,
+  reject_count,
+  machine,
+  bpm,
+  mode,
+  shift,
+  batch,
+  d,
+  line_id
+) {
+  // console.log( good_count,
+  //   reject_count,
+  //   machine,
+  //   bpm,
+  //   mode,
+  //   shift,
+  //   batch,
+  //   d,
+  //   line_id);
+  var temp = await getTempGood(
+    machine,
+    line_id,
+    shift,
+    batch,
+    good_count,
+    reject_count
+  );
+  //updateChangeOver('automatic')
+  var reset_counter = temp.current_good_value * 0.5;
+  var date = d;
+  //shift change all changes
+  if (temp.current_shift != shift) {
+    var pre_shift = temp.current_shift;
+    if (pre_shift == date_change_shift) {
+      var date = moment().local().subtract(1, "days").startOf("day").format();
+      var split = date.split("+");
+      date = split[0] + "+00:00";
+    }
+    var shift_good = good_count - temp.shift_start_good_count;
+    var shift_reject;
+    if(!temp.changeover_mode){
+      shift_reject = reject_count - temp.shift_start_reject_count
+    }else{
+      shift_reject = 0;
+      var changover_reject = reject_count - temp.shift_start_reject_count;
+      updateStartupReject(line_id,date,pre_shift,batch,machine,changover_reject,()=>{
 
+      });
+      pushAndUpdateChangeover(shift,operator_name,d,()=>{
+      })
+    }
+    updateGoodCount(
+      line_id,
+      date,
+      pre_shift,
+      batch,
+      machine,
+      shift_good,
+      shift_reject,
+      () => {
+        batchEnd(line_id, date, pre_shift, () => {
+          frequentGoodUpdate(machine, line_id, {
+            shift_start_good_count: good_count,
+            shift_start_reject_count: reject_count,
+            current_good_value: good_count,
+            current_reject_value: reject_count,
+            current_shift: shift,
+          });
+          addMachineData(
+            line_id,
+            d,
+            shift,
+            operator_name,
+            batch,
+            machine,
+            () => {
+              //can do operation after shift end process
+            }
+          );
+        });
+      }
+    );
+    return;
+  }
+  //if batch will change
+  if (temp.currnt_batch.toString() != batch) {
+    var shift_good = good_count - temp.shift_start_good_count;
+    var shift_reject = reject_count - temp.shift_start_reject_count;
+    //console.log(shift_reject)
+    updateGoodCount(
+      line_id,
+      date,
+      shift,
+      temp.currnt_batch,
+      machine,
+      shift_good,
+      shift_reject,
+      () => {
+        frequentGoodUpdate(machine, line_id, {
+          shift_start_good_count: good_count,
+          shift_start_reject_count: reject_count,
+          current_good_value: good_count,
+          current_reject_value: reject_count,
+          currnt_batch: batch,
+        });
+        addMachineData(line_id, d, shift, operator_name, batch, machine, () => {
+          //can do operation after batch end process
+        });
+      }
+    );
+    return;
+  }
+  //if count is greater than 500 OR changover global is false
+  if (
+    (!global.changeSkuManualEntry ||
+      good_count - temp.shift_start_good_count > changeover_force_stop_count) &&
+    temp.changeover_mode
+  ) {
+    var changeover_reject = reject_count - temp.shift_start_reject_count;
+    console.log(temp.changeover_mode,global.changeSkuManualEntry,"From here",changeover_reject);
+    if(good_count - temp.shift_start_good_count > changeover_force_stop_count){
+      updateChangeOver('automatic',(data)=>{
+		
+      }) 
+     }
+    updateStartupReject(
+      line_id,
+      d,
+      shift,
+      batch,
+      machine,
+      changeover_reject,
+      () => {
+        
+      }
+    );
+    global.changeSkuManualEntry = false;
+    temp.changeover_mode = false;
+    temp.shift_start_reject_count = reject_count;
+    temp.current_good_value = good_count;
+    temp.current_reject_value = reject_count;
+    temp.bpm = bpm;
+    temp.mode = mode;
+    temp.save();
+    return;
+  }
+  //check for max bpm
+  if (bpm > temp.bpm) {
+    updateMaxBpm(
+      line_id,
+      d,
+      shift,
+      operator_name,
+      batch,
+      machine,
+      bpm,
+      () => {}
+    );
+  }
+  //if plc value get reset
+  if (good_count < reset_counter) {
+    return;
+  }
+
+  frequentGoodUpdate(machine, line_id, {
+    bpm: bpm,
+    mode: mode,
+    current_good_value: good_count,
+    current_reject_value: reject_count,
+  });
+}
 //add stop function
 async function addstop(
   machine,
@@ -429,9 +658,7 @@ async function addstop(
   shift,
   line_id,
   d,
-  timestamp,
-  gcount,
-  rcount,
+  timestamp
 ) {
   // console.log(
   //   machine,
@@ -449,9 +676,7 @@ async function addstop(
   //   shift,
   //   line_id,
   //   d,
-  //   timestamp,
-  // gcount,
-  // rcount,
+  //   timestamp
   // )
   var code;
   var current = preference([
@@ -466,8 +691,7 @@ async function addstop(
     execution,
     ready,
   ]);
-  console.log(current,machine,"curent method");
-  datamaking(random_item(lines),shift,gcount,rcount,machine)
+  //console.log(current);
   if (current == "fault") {
     code = `fault_${stop}`;
   } else if (current == "waiting" && typeof waiting == "number") {
@@ -628,12 +852,6 @@ async function onPageRefresh() {
     //   global.changeSkuManualEntry = true;
     // }
   });
-}
-var lines = ["line_1","line_4","line_3","line_2",]
-function random_item(items) {
-
-  return items[Math.floor(Math.random() * items.length)];
-
 }
 
 //function execute on page re

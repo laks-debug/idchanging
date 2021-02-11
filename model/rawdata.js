@@ -41,7 +41,7 @@ var rawSchema = new mongoose.Schema({
    
 }, { timestamps: true })
 
-var Rawdata = mongoose.model("rawdataaaaaaaaaa", rawSchema);
+var Rawdata = mongoose.model("realraw", rawSchema);
 
 //var current_timestamp = new Date();
 // console.log(current_timestamp,"date console");
@@ -68,7 +68,7 @@ var gcount = Math.floor(Math.random() * max)
 var rcount = Math.floor(Math.random() * max)
 
 //datamaking(line_1,shift,good_count_rinse,rcount,mname)
-var datamaking = async(linex,shiftx,gx,rx,mx )=>{
+var datamaking = async(linex,shiftx,gx,rx,mx,sx)=>{
     console.log("data making")
 
     ////
@@ -97,7 +97,7 @@ var datamaking = async(linex,shiftx,gx,rx,mx )=>{
         sku:sku,
         good_count:gx,
         reject_count:rx,
-        current_state:random_item(stattes)
+        current_state:sx
     });
     var result = await new_data.save();
     return result
